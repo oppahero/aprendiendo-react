@@ -15,7 +15,10 @@
   "devDependencies": {
     "standard": "17.1.0"
   },
-  "eslintConfig":{
+  "eslintConfig": {
     "extends": "./node_modules/standard/eslintrc.json"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "4.2.1"
   }
 }
