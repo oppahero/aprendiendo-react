@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
 import { Movies } from './components/Movies.jsx'
 import { useMovies } from './hooks/useMovies.js'
-
+import debounce from 'just-debounce-it'
 
 function useSearch() {
   const [search, updateSearch] = useState('')
@@ -38,17 +38,23 @@ function useSearch() {
 }
 
 function App() {
-
+  const [sort, setSort] = useState(false)
   const { search, updateSearch, error } = useSearch()
-  const { movies, getMovies, loading } = useMovies({ search })
+  const { movies, getMovies, loading } = useMovies({ search, sort })
 
   // ? useRef para referenciar un elemento del dom
   // const inputRef = useRef()
 
+  const debouncedGetMovies = useCallback(
+    debounce(search => {
+      getMovies({ search })
+    }, 300)
+    , [getMovies]
+  )
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    getMovies()
+    getMovies({ search })
     // const fields = new FormData(event.target)
     // const query = fields.get('query')
 
@@ -56,9 +62,15 @@ function App() {
   }
 
   const handleChange = (event) => {
-    updateSearch(event.target.value)
+    const newSearch = event.target.value
+    updateSearch(newSearch)
+    debouncedGetMovies(newSearch)
   }
 
+
+  const handleSort = () => {
+    setSort(!sort)
+  }
 
   return (
     <div className='page'>
@@ -66,6 +78,7 @@ function App() {
         <h1>Buscador de películas</h1>
         <form className='form' onSubmit={handleSubmit}>
           <input value={search} onChange={handleChange} name='query' placeholder='Avengers, Star Wars..' />
+          <input type='checkbox' checked={sort} onChange={handleSort} />
           <button type='submit'>Buscar</button>
         </form>
         {
