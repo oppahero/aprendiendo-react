@@ -45,7 +45,7 @@ function App() {
   // ? useRef para referenciar un elemento del dom
   // const inputRef = useRef()
 
-  const debouncedGetMovies = useCallback(
+  const debouncedGetMovies = useCallback(() =>
     debounce(search => {
       getMovies({ search })
     }, 300)
