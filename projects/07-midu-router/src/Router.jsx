@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { EVENTS } from './utils/consts.js'
+import { match } from 'path-to-regexp'
 
 export function Router ({ routes = [], defaultComponent: DefaultComponent = () => null }) {
-  const [currentPage, setCurrentPage] = useState(window.location.pathname)
+  const [currentPath, setCurrentPath] = useState(window.location.pathname)
 
   useEffect(() => {
     const onLocationChange = () => {
-      setCurrentPage(window.location.pathname)
+      setCurrentPath(window.location.pathname)
     }
 
     window.addEventListener(EVENTS.PUSHSTATE, onLocationChange)
@@ -18,6 +19,24 @@ export function Router ({ routes = [], defaultComponent: DefaultComponent = () =
     }
   }, [])
 
-  const Page = routes.find(({ path }) => path === currentPage)?.Component
-  return Page ? <Page /> : <DefaultComponent />
+  let routeParams = {}
+
+  const Page = routes.find(({ path }) => {
+    if (path === currentPath) return true
+
+    // Usando path-to-regrexp para
+    // detectar rutas dinámicas
+    // Ej search/:query
+    const matchedUrl = match(path, { decode: decodeURIComponent })
+    const matched = matchedUrl(currentPath)
+    if (!matched) return false
+
+    // Guadar los parámetros de la url que eran dinámicos
+    routeParams = matched.params // {query: 'dato url'}
+    return true
+  })?.Component
+
+  return Page
+    ? <Page routeParams={routeParams} />
+    : <DefaultComponent routeParams={routeParams} />
 }

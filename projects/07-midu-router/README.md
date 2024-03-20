@@ -8,6 +8,7 @@
 - [x] Crear componente Router para hacerlo más declarativo
 - [x] Soportar ruta por defecto (404)
 - [x] Soportar rutas con parámetros
+      Instalar path-to-regexp -E
 - [x] Componente <Route /> para hacerlo declarativo
 - [x] Lazy Loading de las rutas
 - [x] Hacer un i18n con las rutas
