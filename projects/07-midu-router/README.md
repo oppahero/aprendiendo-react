@@ -13,4 +13,6 @@
 - [x] Lazy Loading de las rutas
 - [x] Hacer un i18n con las rutas
 - [x] Testing
+      Instalar vitest, happydom, @testing-library/react
+      Edición del vite.config para indicar el environment
 - [x] Publicar el paquete en NPM
