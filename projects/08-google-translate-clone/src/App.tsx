@@ -6,6 +6,8 @@ import './App.css'
 import { useStore } from './hooks/useStore.ts'
 import { AUTO_LANGUAGE } from './constants.ts'
 import { ArrowIcon } from './components/Icons.tsx'
+import { LanguageSelector } from './components/LenguageSelector.tsx'
+import { SectionType } from './types.d'
 
 function App() {
 
@@ -28,7 +30,11 @@ function App() {
 
       <Row>
         <Col>
-          <h2>From</h2>
+          <LanguageSelector 
+            type={SectionType.From}
+            value={fromLanguage}
+            onChange={setFromLanguage}
+          />
           {fromLanguage}
         </Col>
         <Col>
@@ -41,14 +47,14 @@ function App() {
           </Button>
         </Col>
         <Col>
-          <h2>To</h2>
+          <LanguageSelector 
+            type={SectionType.To}
+            value={toLanguage}
+            onChange={setToLenguage}
+          />
           {toLanguage}
         </Col>
       </Row>
-
-      {/* <button onClick={() => {
-        setFromLanguage('es')
-      }}>Cambiar a Español</button> */}
     </Container>
   )
 }
