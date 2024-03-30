@@ -1,6 +1,6 @@
-import { AUTO_LANGUAGE } from '../constants';
-import { Action, FromLanguage, Language, type State } from '../types';
-import { useReducer } from 'react';
+import { AUTO_LANGUAGE } from '../constants'
+import { Action, FromLanguage, Language, type State } from '../types.d'
+import { useReducer } from 'react'
 
 // 1. Create initialstate
 export const initialState: State = {
@@ -9,11 +9,11 @@ export const initialState: State = {
   fromText: '',
   result: '',
   loading: false,
-};
+}
 
 // 2. Create a reducer
 export function reducer(state: State, action: Action) {
-  const { type } = action;
+  const { type } = action
 
   if (type === 'INTERCHANGE_LANGUAGE') {
     if (state.fromLanguage === AUTO_LANGUAGE ) return state
@@ -21,30 +21,41 @@ export function reducer(state: State, action: Action) {
       ...state,
       fromLanguage: state.toLanguage,
       toLanguage: state.fromLanguage,
-    };
+    }
   }
 
   if (type === 'SET_FROM_LANGUAGE') {
+    if (state.fromLanguage === action.payload ) return state
+    const loading = state.fromText !== ''
+
     return {
       ...state,
       fromLanguage: action.payload,
-    };
+      result: '',
+      loading
+    }
   }
 
   if (type === 'SET_TO_LANGUAGE') {
+    if (state.toLanguage === action.payload ) return state
+    const loading = state.fromText !== ''
+
     return {
       ...state,
       toLanguage: action.payload,
-    };
+      result: '',
+      loading
+    }
   }
 
   if (type === 'SET_FROM_TEXT') {
+    const loading = action.payload !== ''
     return {
       ...state,
-      loading: true,
+      loading: loading,
       fromText: action.payload,
       results: '',
-    };
+    }
   }
 
   if (type === 'SET_RESULT') {
@@ -52,17 +63,17 @@ export function reducer(state: State, action: Action) {
       ...state,
       loading: false,
       result: action.payload,
-    };
+    }
   }
 
-  return state;
+  return state
 }
 
 export function useStore() {
   // 3. Use the useReducer hoook
 
   const [{ fromLanguage, toLanguage, fromText, result, loading }, dispatch] =
-    useReducer(reducer, initialState);
+    useReducer(reducer, initialState)
 
   //   No devuelvas directamente los dispatch 
   const interchangeLanguages = () => {
@@ -96,5 +107,5 @@ export function useStore() {
     setToLenguage,
     setFromText,
     setResult
-  };
+  }
 }
