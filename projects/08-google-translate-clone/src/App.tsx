@@ -5,7 +5,7 @@ import { Container, Row, Col, Button, Stack } from 'react-bootstrap'
 import './App.css'
 import { useStore } from './hooks/useStore.ts'
 import { AUTO_LANGUAGE } from './constants.ts'
-import { ArrowIcon } from './components/Icons.tsx'
+import { ArrowIcon, ClipboardIcon } from './components/Icons.tsx'
 import { LanguageSelector } from './components/LenguageSelector.tsx'
 import { SectionType } from './types.d'
 import { TextArea } from './components/TextArea.tsx'
@@ -36,6 +36,10 @@ function App() {
   //     .catch(() => { setResult('Error') })
   // }, [fromLanguage, toLanguage])
 
+  const handleClipboard = () => { 
+    console.log('hola')
+    navigator.clipboard.writeText(result).catch(() => {})
+  }
 
   return (
     <Container fluid>
@@ -73,12 +77,21 @@ function App() {
               value={toLanguage}
               onChange={setToLenguage}
             />
-            <TextArea
-              type={SectionType.To}
-              value={result}
-              onChange={setResult}
-              loading={loading}
-            />
+            <div style={{position: 'relative'}}>
+              <TextArea
+                type={SectionType.To}
+                value={result}
+                onChange={setResult}
+                loading={loading}
+              />
+              <Button
+                variant='link'
+                onClick={handleClipboard}
+                style={{position: 'absolute', left: 0, bottom: 0}}
+              >
+                <ClipboardIcon />
+              </Button>
+            </div>
           </Stack>
         </Col>
       </Row>
