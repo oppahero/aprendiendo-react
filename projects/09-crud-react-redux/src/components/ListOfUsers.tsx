@@ -10,33 +10,14 @@ import {
   Title
 } from "@tremor/react";
 
-const users: {
-  id: string;
-  name: string;
-  email: string;
-  github: string;
-}[] = [
-    {
-      id: "1",
-      name: "John Doe",
-      email: "john@gmail.com",
-      github: "john",
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      email: "jane@gmail.com",
-      github: "jane",
-    },
-    {
-      id: "3",
-      name: "Juls Smith",
-      email: "jusl@gmail.com",
-      github: "julsj",
-    },
-  ];
+import { useAppSelector } from '../hooks/store.ts';
+import { useUserActions } from "../hooks/useUserActions.ts";
 
 export function ListOfUsers() {
+  const users = useAppSelector((state) => state.users)
+  const { removeUser } = useUserActions()
+  
+
   return (
     <Card>
       <Title>
@@ -87,7 +68,7 @@ export function ListOfUsers() {
                     />
                   </svg>
                 </button>
-                <button type='button'>
+                <button type='button' onClick={() => removeUser(item.id)}>
                   <svg
                     aria-label='Remove element'
                     xmlns='http://www.w3.org/2000/svg'
@@ -104,7 +85,6 @@ export function ListOfUsers() {
                     />
                   </svg>
                 </button>
-
               </TableCell>
             </TableRow>
           ))}
