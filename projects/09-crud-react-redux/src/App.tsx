@@ -1,10 +1,11 @@
 import './App.css'
+import { ListOfUsers } from './components/ListOfUsers.tsx'
 
 function App() {
 
   return (
     <>
-      <h1>Proyecto con redux</h1>
+      <ListOfUsers/>
     </>
   )
 }
