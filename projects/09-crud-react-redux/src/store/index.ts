@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import usersReducer from './users/slice'
 
-
 const persistanceLocalStorageMiddleware = (store) => (next) => (action) => {
     next(action)
     localStorage.setItem('__redux_state__', JSON.stringify(store.getState()))
