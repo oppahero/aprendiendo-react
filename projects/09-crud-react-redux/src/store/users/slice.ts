@@ -1,18 +1,6 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-export type UserId = string
-
-export interface User {
-  name: string
-  email: string
-  github: string
-}
-
-export interface UserWithId extends User {
-  id: UserId
-}
-
-const initialState: UserWithId[] = [
+const DEFAULT_STATE: UserWithId[] = [
   {
     id: "1",
     name: "John Doe",
@@ -32,6 +20,27 @@ const initialState: UserWithId[] = [
     github: "julsj",
   },
 ];
+
+
+export type UserId = string
+
+export interface User {
+  name: string
+  email: string
+  github: string
+}
+
+export interface UserWithId extends User {
+  id: UserId
+}
+
+// ? Ejemplo de una Inmediatly Invoked function expression (IIFE)
+// Es una función que es llamada inmediatamente despúes de ser definida
+const initialState: UserWithId[] = ( ()=> {
+  const persistedState = localStorage.getItem('__redux_state__')
+  if (persistedState) return JSON.parse(persistedState).users
+  return DEFAULT_STATE
+})()
 
 export const usersSlice = createSlice({
   name: "users",
