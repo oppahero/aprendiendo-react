@@ -1,5 +1,5 @@
-import { Toaster } from 'sonner'
 import './App.css'
+import { Toaster } from 'sonner'
 import { CreateNewUser } from './components/CreateNewUser.tsx'
 import { ListOfUsers } from './components/ListOfUsers.tsx'
 

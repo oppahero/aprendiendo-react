@@ -4,21 +4,16 @@ import { toast } from "sonner";
 
 const persistanceLocalStorageMiddleware: Middleware =
   (store) => (next) => (action) => {
-    console.log(store.getState());
     next(action);
-    console.log(store.getState());
     localStorage.setItem("__redux_state__", JSON.stringify(store.getState()));
   };
 
 const syncWithDatabase: Middleware = (store) => (next) => (action) => {
   const { type, payload } = action;
   const previousState = store.getState();
-  console.log(store.getState());
   
   next(action);
   
-  console.log(store.getState());
-
   // Actualización de forma optimista: El UI se actualiza visualmente
   // pero realmente la ejecución de la acción está en proceso
 
