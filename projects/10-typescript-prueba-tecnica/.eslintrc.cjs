@@ -24,6 +24,7 @@ module.exports = {
     },
   ],
   rules: {
+    '@typescript-eslint/method-signature-style': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react/react-in-jsx-scope': 'off',
     'react-refresh/only-export-components': [

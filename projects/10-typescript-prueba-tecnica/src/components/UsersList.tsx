@@ -1,30 +1,32 @@
-import { type User } from '../types.d'
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { SortBy, type User } from '../types.d'
 
 interface Props {
   users: User[]
   showColors: boolean
+  deleteUser: (uuid: string) => void
+  changeSorting: (sort: SortBy) => void
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function UsersList ({ users, showColors }: Props) {
+export function UsersList ({ changeSorting, users, showColors, deleteUser }: Props) {
   return (
     <table width='100%'>
       <thead>
         <tr>
           <th>Foto</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Pais</th>
-          <th>Acciones</th>
+          <th className='pointer' onClick={() => { changeSorting(SortBy.NAME) }}>Nombre</th>
+          <th className='pointer' onClick={() => { changeSorting(SortBy.LAST) }}>Apellido</th>
+          <th className='pointer' onClick={() => { changeSorting(SortBy.COUNTRY) }}>Pais</th>
+          <th >Acciones</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className={ showColors ? 'table--showColors' : ''}>
         {users.map((user, index: number) => {
-          const backgroundColor = index % 2 === 0 ? '#333' : '#555'
-          const style = showColors ? backgroundColor : 'transparent'
+          // const backgroundColor = index % 2 === 0 ? '#333' : '#555'
+          // const style = showColors ? backgroundColor : 'transparent'
 
           return (
-            <tr key={user.login.uuid} style={{ backgroundColor: style }}>
+            <tr key={user.login.uuid} >
               <td>
                 <img src={user.picture.thumbnail} alt="User image" />
               </td>
@@ -32,7 +34,7 @@ export function UsersList ({ users, showColors }: Props) {
               <td>{user.name.last}</td>
               <td>{user.location.country}</td>
               <td>
-                <button>Borrar</button>
+                <button onClick={() => { deleteUser(user.login.uuid) }}>Borrar</button>
               </td>
             </tr>
           )
