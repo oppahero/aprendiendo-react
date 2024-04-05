@@ -9,6 +9,8 @@ function App () {
   const [showColors, setShowColors] = useState(false)
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE)
   const [filterCountry, setFilterCountry] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   const originalUsers = useRef<User[]>([])
 
@@ -35,6 +37,8 @@ function App () {
   }
 
   useEffect(() => {
+    setLoading(true)
+    setError(false)
     fetch('https://randomuser.me/api?results=100')
       .then(async (res) => await res.json())
       .then((res: APIResults) => {
@@ -43,6 +47,10 @@ function App () {
       })
       .catch((e) => {
         console.error(e)
+        setError(true)
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }, [])
 
