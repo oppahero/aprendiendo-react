@@ -15,7 +15,9 @@ export const useUsers = () => {
     queryKey: ['users'],
     queryFn: fetchUsers,
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.nextCursor
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 3
   })
 
   return {
