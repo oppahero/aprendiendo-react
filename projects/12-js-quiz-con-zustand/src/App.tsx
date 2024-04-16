@@ -1,5 +1,6 @@
 import { Container, Stack, Typography } from '@mui/material'
 import './App.css'
+import { Game } from './Game.tsx'
 import { JavascriptLogo } from './JavascriptLogo.tsx'
 import { Start } from './Start.tsx'
 import { useQuestionStore } from './store/questions.ts'
@@ -18,7 +19,7 @@ function App () {
         </Stack>
 
         {questions.length === 0 && <Start />}
-        {questions.length > 0 && <h3>Juego</h3>}
+        {questions.length > 0 && <Game />}
 
       </Container>
 
